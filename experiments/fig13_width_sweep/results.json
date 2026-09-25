@@ -1,0 +1,192 @@
+{
+  "batch": 4096,
+  "seed": 12345,
+  "thresholds": [
+    0.8,
+    0.95
+  ],
+  "runs": {
+    "telephone_mess3_d60_canonical_s2001_50k|b4096|s12345": {
+      "run": "telephone_mess3_d60_canonical_s2001_50k",
+      "d_model": 60,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.401468276977539,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d60_canonical_s2002_50k|b4096|s12345": {
+      "run": "telephone_mess3_d60_canonical_s2002_50k",
+      "d_model": 60,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 6.1292619705200195,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d60_canonical_s2003_50k|b4096|s12345": {
+      "run": "telephone_mess3_d60_canonical_s2003_50k",
+      "d_model": 60,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.480509281158447,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d60_canonical_s2004_50k|b4096|s12345": {
+      "run": "telephone_mess3_d60_canonical_s2004_50k",
+      "d_model": 60,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 6.029358386993408,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d60_canonical_s2005_50k|b4096|s12345": {
+      "run": "telephone_mess3_d60_canonical_s2005_50k",
+      "d_model": 60,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.849093914031982,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_canonical_50k|b4096|s12345": {
+      "run": "telephone_mess3_canonical_50k",
+      "d_model": 120,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.080725193023682,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_canonical_s401_50k|b4096|s12345": {
+      "run": "telephone_mess3_canonical_s401_50k",
+      "d_model": 120,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 8
+      },
+      "pr": 6.121962070465088,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_canonical_s402_50k|b4096|s12345": {
+      "run": "telephone_mess3_canonical_s402_50k",
+      "d_model": 120,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 8
+      },
+      "pr": 5.911496639251709,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_canonical_s403_50k|b4096|s12345": {
+      "run": "telephone_mess3_canonical_s403_50k",
+      "d_model": 120,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.8876800537109375,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_canonical_s404_50k|b4096|s12345": {
+      "run": "telephone_mess3_canonical_s404_50k",
+      "d_model": 120,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 7
+      },
+      "pr": 5.64390230178833,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d240_canonical_s2101_50k|b4096|s12345": {
+      "run": "telephone_mess3_d240_canonical_s2101_50k",
+      "d_model": 240,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 10
+      },
+      "pr": 5.913773059844971,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d240_canonical_s2102_50k|b4096|s12345": {
+      "run": "telephone_mess3_d240_canonical_s2102_50k",
+      "d_model": 240,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 9
+      },
+      "pr": 6.327156066894531,
+      "dim_factored": 24,
+      "dim_joint": 728
+    },
+    "telephone_mess3_d240_canonical_s2103_50k|b4096|s12345": {
+      "run": "telephone_mess3_d240_canonical_s2103_50k",
+      "d_model": 240,
+      "n_layers": 4,
+      "step": 50000,
+      "preliminary": false,
+      "nc": {
+        "0.8": 5,
+        "0.95": 9
+      },
+      "pr": 5.550412654876709,
+      "dim_factored": 24,
+      "dim_joint": 728
+    }
+  }
+}

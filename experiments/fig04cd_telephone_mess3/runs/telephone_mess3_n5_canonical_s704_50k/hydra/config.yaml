@@ -1,0 +1,247 @@
+training:
+  num_steps: 50000
+  batch_size: 8192
+  analysis_batch_size: 1024
+  log_cheap_every: 100
+  log_expensive_every: 10000
+  log_activations_every: 10000
+  evaluate_every: 1000
+  checkpoint_every: 5000
+  checkpoint_schedule:
+  - - 0
+    - 10
+    - 1
+  - - 10
+    - 500
+    - 10
+  - - 500
+    - 1000
+    - 100
+  - - 1000
+    - 5000
+    - 1000
+  - - 5000
+    - null
+    - 5000
+predictive_model:
+  name: hooked_transformer
+  instance:
+    _target_: transformer_lens.HookedTransformer
+    cfg:
+      _target_: transformer_lens.HookedTransformerConfig
+      d_model: 120
+      d_head: 40
+      n_heads: 3
+      n_layers: 4
+      n_ctx: 9
+      d_mlp: 480
+      d_vocab: ???
+      act_fn: relu
+      normalization_type: LN
+      device: ${device}
+      seed: ${weight_init_seed}
+  load_checkpoint_step: null
+generative_process:
+  name: telephone_mess3_n5
+  instance:
+    _target_: fwh_core.generative_processes.feedback_transducer.build_telephone_loop
+    noise_epsilon: 0.0
+    action_size: 3
+    agents:
+    - transducer:
+        from_hmms:
+        - process_name: mess3
+          process_params:
+            x: 0.05
+            a: 0.85
+        - process_name: mess3
+          process_params:
+            x: 0.1
+            a: 0.5
+        - process_name: mess3
+          process_params:
+            x: 0.15
+            a: 0.7
+    - transducer:
+        from_hmms:
+        - process_name: mess3
+          process_params:
+            x: 0.05
+            a: 0.6
+        - process_name: mess3
+          process_params:
+            x: 0.1
+            a: 0.5
+        - process_name: mess3
+          process_params:
+            x: 0.15
+            a: 0.7
+    - transducer:
+        from_hmms:
+        - process_name: mess3
+          process_params:
+            x: 0.03
+            a: 0.8
+        - process_name: mess3
+          process_params:
+            x: 0.12
+            a: 0.55
+        - process_name: mess3
+          process_params:
+            x: 0.15
+            a: 0.65
+    - transducer:
+        from_hmms:
+        - process_name: mess3
+          process_params:
+            x: 0.06
+            a: 0.75
+        - process_name: mess3
+          process_params:
+            x: 0.09
+            a: 0.45
+        - process_name: mess3
+          process_params:
+            x: 0.14
+            a: 0.6
+    - transducer:
+        from_hmms:
+        - process_name: mess3
+          process_params:
+            x: 0.04
+            a: 0.7
+        - process_name: mess3
+          process_params:
+            x: 0.11
+            a: 0.65
+        - process_name: mess3
+          process_params:
+            x: 0.13
+            a: 0.55
+    device: ${device}
+  base_vocab_size: ???
+  vocab_size: ???
+  bos_token: ???
+  eos_token: null
+training_metric_tracker:
+  name: full_metric_tracker
+  instance:
+    _target_: fwh_core.metrics.metric_tracker.MetricTracker
+    metric_names:
+      cheap:
+      - learning_rate
+      - tokens
+      - learning_rate_weighted_tokens
+      - loss
+      expensive:
+      - gradient_weighted_tokens
+      - parameter_update
+      - parameter_norm
+      - parameter_distance
+    metric_kwargs:
+      ma_window_size: 100
+      ema_gamma: 0.9
+eval_metric_tracker:
+  name: loss_only_metric_tracker
+  instance:
+    _target_: fwh_core.metrics.metric_tracker.MetricTracker
+    metric_names:
+    - loss
+    metric_kwargs:
+      ma_window_size: 100
+      ema_gamma: 0.9
+activation_tracker:
+  name: simple_tracker
+  instance:
+    _target_: fwh_core.activations.activation_tracker.ActivationTracker
+    analyses:
+      pca:
+        instance:
+          _target_: fwh_core.activations.activation_analyses.PcaAnalysis
+          n_components: null
+          last_token_only: false
+          concat_layers: false
+          use_probs_as_weights: false
+          skip_first_token: true
+          skip_deduplication: true
+          variance_thresholds:
+          - 0.8
+          - 0.9
+          - 0.95
+          - 0.99
+      reg:
+        instance:
+          _target_: fwh_core.activations.activation_analyses.LinearRegressionSVDAnalysis
+          concat_belief_states: true
+          last_token_only: false
+          concat_layers: false
+          use_probs_as_weights: false
+          compute_subspace_orthogonality: false
+          skip_first_token: true
+          skip_deduplication: true
+          rcond_values:
+          - 1.0e-15
+          - 1.0e-10
+          - 1.0e-08
+          - 1.0e-06
+          - 0.0001
+          - 0.01
+logging:
+  instance:
+    _target_: fwh_core.logging.mlflow_logger.MLFlowLogger
+    experiment_name: ${experiment_name}
+    run_name: ${run_name}
+    tracking_uri: null
+    registry_uri: null
+    downgrade_unity_catalog: true
+persistence:
+  instance:
+    _target_: fwh_core.persistence.local_pytorch_persister.LocalPytorchPersister
+    directory: ${hydra:runtime.output_dir}/checkpoints
+    filename: model.pt
+optimizer:
+  name: pytorch_adam
+  instance:
+    _target_: torch.optim.AdamW
+    lr: 0.0005
+    betas:
+    - 0.9
+    - 0.999
+    eps: 1.0e-08
+    weight_decay: 0.0
+    amsgrad: false
+lr_scheduler:
+  name: windowed_plateau
+  instance:
+    _target_: fwh_core.optimization.lr_schedulers.WindowedReduceLROnPlateau
+    window_size: 10
+    update_every: 100
+    mode: min
+    factor: 0.7
+    patience: 100
+    threshold: 0.0001
+    threshold_mode: rel
+    cooldown: 200
+    min_lr: 1.0e-07
+experiment_name: coupled_transducer
+run_name: telephone_mess3_n5_canonical_s704
+seed: 704
+weight_init_seed: 754
+seed_data_stream: true
+device: cuda
+tags:
+  research_step: training
+  retention: ephemeral
+  strict: 'true'
+experiment_tags:
+  project: coupled_transducer
+visualization:
+  every: 10000
+  cev:
+    enabled: true
+    colorscale: Archival
+    max_components: null
+    show_rangeslider: true
+  belief_regression:
+    enabled: true
+    max_samples: 10000

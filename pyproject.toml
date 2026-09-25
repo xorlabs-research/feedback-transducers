@@ -3,15 +3,17 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "example"
-version = "0.1.0"
-description = "Factored World Hypothesis experiments"
+name = "feedback-transducers"
+version = "1.0.0"
+description = "Reproduction code for the paper 'Beliefs in feedback: Factored representations of interacting agents in transformers': training runs and figures"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "hydra-ray-launcher>=1.2.1",
     "ipykernel>=7.1.0",
     "nbformat>=5.10.4",
+    "nbconvert>=7.0.0",
+    "python-dotenv>=1.0.0",
+    "pandas>=2.0.0",
     "pydantic >= 2.12.0",
     "transformer-lens==2.15.4",
     "transformers==4.57.3",
@@ -37,10 +39,10 @@ gpu = ["jax[cuda12]>=0.6.0"]
 cuda = ["jax[cuda12]>=0.6.0"]
 pytorch = ["torch>=2.0.0"]
 mac = ["jax[cpu]>=0.6.0"]
-analysis = ["ipykernel>=7.1.0", "nbformat>=5.10.0"]
+analysis = ["ipykernel>=7.1.0", "nbformat>=5.10.0", "nbconvert>=7.0.0"]
 
 [tool.setuptools.packages.find]
-include = ["experiments*", "fwh_core*"]
+include = ["experiments*", "fwh_core*", "plotting*"]
 
 [tool.ruff]
 line-length = 120

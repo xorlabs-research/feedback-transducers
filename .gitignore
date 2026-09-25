@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.DS_Store
+experiments/*/runs/*/checkpoints/
+experiments/*/runs/*/mlruns/
+mlruns/
+outputs/
+*.log
+figures/
+.ipynb_checkpoints/
+.pytest_cache/
+.env
+*.egg-info/
+.venv/
