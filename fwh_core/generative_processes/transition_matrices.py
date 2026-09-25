@@ -95,6 +95,27 @@ def fanizza(alpha: float, lamb: float) -> jax.Array:
     return jnp.stack([da, db], axis=0)
 
 
+def fractal2(b: float, p: float, q: float) -> jax.Array:
+    """Fractal2: 2-state, 2-emission HMM with parameters (b, p, q).
+
+    Convention `T[v, s, s'] = Pr(emit v, transition s -> s' | s)`. Sum over
+    (v, s') for fixed s is 1.
+
+    Shape: [V=2, S=2, S=2].
+    """
+    if not 0.0 <= b <= 1.0:
+        raise ValueError(f"b must be in [0, 1], got {b}")
+    if not 0.0 <= p <= 1.0:
+        raise ValueError(f"p must be in [0, 1], got {p}")
+    if not 0.0 <= q <= 1.0:
+        raise ValueError(f"q must be in [0, 1], got {q}")
+    T0 = jnp.array([[b, 0.0],
+                    [(1 - b) * q, (1 - b) * (1 - q)]])
+    T1 = jnp.array([[(1 - b) * (1 - p), (1 - b) * p],
+                    [0.0, b]])
+    return jnp.stack([T0, T1], axis=0)
+
+
 def leaky_rrxor(p1: float, p2: float, epsilon: float) -> jax.Array:
     """Creates a transition matrix for the leaky RRXOR Process."""
     assert 0 <= epsilon <= 1
@@ -369,6 +390,7 @@ HMM_MATRIX_FUNCTIONS = {
     "coin": coin,
     "days_of_week": days_of_week,
     "even_ones": even_ones,
+    "fractal2": fractal2,
     "leaky_rrxor": leaky_rrxor,
     "matching_parens": matching_parens,
     "mess3": mess3,

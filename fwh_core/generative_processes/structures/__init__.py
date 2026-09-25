@@ -8,10 +8,14 @@ Available structures:
 - SequentialConditional: One-way chain dependencies (factor i depends on i-1)
 - FullyConditional: Mutual dependencies between all factors
 - ConditionalTransitions: Hybrid structure (independent/sequential emissions, mutual transitions)
+- FeedbackTransducerStructure: Perception-action feedback loop (agent T + N action-delayed U agents)
 """
 
 from fwh_core.generative_processes.structures.conditional_transitions import (
     ConditionalTransitions,
+)
+from fwh_core.generative_processes.structures.feedback_transducer import (
+    FeedbackTransducerStructure,
 )
 from fwh_core.generative_processes.structures.fully_conditional import (
     FullyConditional,
@@ -31,6 +35,7 @@ __all__ = [
     "ConditionalContext",
     "ConditionalStructure",
     "ConditionalTransitions",
+    "FeedbackTransducerStructure",
     "FullyConditional",
     "IndependentStructure",
     "SequentialConditional",
