@@ -1,0 +1,48 @@
+% Fig. 4 of "Beliefs in feedback: Factored representations of interacting agents in transformers", assembled into ONE vector pdf:
+% the two social-network diagram panels (TikZ, social_network.tikz) on top,
+% the three data panels (plotting/dimension_cells.py -> figure_dimension_row.pdf)
+% below.
+%
+% Kept in LaTeX rather than merged in Python because the diagram is TikZ that
+% matplotlib could only embed as a raster. Built by plotting/dimension_cells.py,
+% or by hand from a directory holding social_network.tikz and the row pdf:
+%     pdflatex -output-directory=. figure_dimension_full.tex
+\documentclass[border=0pt]{standalone}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\input{social_network.tikz}
+% DejaVu Sans is the font matplotlib draws the (c,d,e) letters in, so the
+% (a,b) letters below come out as the same glyphs, not merely the same size
+\usepackage{DejaVuSans}
+\graphicspath{{./}}
+
+% the paper's \textwidth (iclr2026_conference.sty: 5.5 true in), so the figure
+% is authored at the size it prints at
+\newlength{\figw}\setlength{\figw}{5.5in}
+
+% Panel letter in its own narrow column to the left of each cell: as a line
+% above, the letters cost a baseline of height each. Sans bold at 8pt matches
+% the letters matplotlib draws in the data row (and in Fig. 2).
+\newcommand{\pcell}[3]{%
+  \begin{minipage}[t]{#1\linewidth}%
+    \begin{minipage}[t]{0.10\linewidth}\raggedright\vspace{0pt}%
+      {\sffamily\bfseries\fontsize{8}{10}\selectfont #2}\end{minipage}%
+    \begin{minipage}[t]{0.885\linewidth}\vspace{0pt}\centering #3\end{minipage}%
+  \end{minipage}}
+
+\begin{document}
+\begin{minipage}{\figw}
+\centering
+% (a) and (b) are TikZ pictures drawn at their print size (no rescaling, so
+% their fonts print at the sizes authored in social_network.tikz). Cell widths
+% track the panels' natural widths (~5.5cm and ~6.0cm); (b) is the shorter
+% panel, so it gets a little of the height difference above it.
+\pcell{0.46}{(a)}{\snHubPanel}\hfill
+\pcell{0.50}{(b)}{\vspace{5pt}\snLoopPanel}
+
+\vspace{3pt}
+% the three data panels, already one pdf from figure_dimension_cells.py
+\includegraphics[width=\linewidth]{figure_dimension_row.pdf}
+\end{minipage}
+\end{document}

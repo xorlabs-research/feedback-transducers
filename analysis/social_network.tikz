@@ -1,0 +1,146 @@
+% TikZ version of the social-network diagram (Fig. 3a,b of the coupled-
+% transducer paper), replacing Diagrams/Social_Network.pdf (Keynote export).
+%
+% Provides two macros, each a self-contained tikzpicture authored at the size
+% it prints at (panel widths ~5.0cm and ~6.3cm):
+%
+%   \snHubPanel    (a) hub-and-spokes: the social-network automaton exchanging
+%                  actions X(i)_t / perceptions Y(i)_t with N=3 agents
+%   \snLoopPanel   (b) the same process as a binary feedback loop between the
+%                  hub and the tensor product of the agents
+%
+% Preamble-safe: \input it after \usepackage{tikz}. Text is set in the roman
+% family so the diagram matches the paper's other (Computer Modern) diagrams
+% even inside a document whose default family is sans (figure_dimension_full).
+%
+% The two-state transducers drawn inside the hub and the agents are the ones
+% from the Feedback-Stages diagram, without transition labels (the appendix
+% diagram has them).
+
+\usetikzlibrary{arrows.meta,calc,positioning,bending}
+
+\definecolor{snblue}{HTML}{00A2FF}
+\definecolor{sngreen}{HTML}{61D836}
+
+% ---- two-state transducer pic ------------------------------------------
+% Geometry is set by \snsetsize{state radius}{state separation}{loop reach}
+% {line width} so the same pic draws both the legible automata of (b) and
+% the thumbnail ones inside the circles of (a). \snlabelstrue adds the
+% state names.
+\newif\ifsnlabels
+\newcommand{\snsetsize}[4]{\def\snr{#1}\def\snd{#2}\def\snl{#3}\def\snlw{#4}}
+\snsetsize{0.2}{1.0}{0.3}{0.7pt}
+
+\tikzset{
+  sn state/.style={circle, draw=black, line width=\snlw, inner sep=0pt,
+                   minimum size=2*\snr cm, font=\tiny},
+  sn edge/.style={draw=black, line width=\snlw,
+                  -{Stealth[length=20*\snr pt, width=16*\snr pt, bend]},
+                  shorten >=0.2pt},
+  % common part of both transducers: two states, the A<->B arcs and the
+  % self-loop on A. Self-loops leave and re-enter 60 degrees apart with
+  % control points 1.6*\snl out, which gives a round loop of reach ~\snl.
+  twostate core/.pic={
+    \node[sn state] (A) at ({-\snd/2},0) {\ifsnlabels$A$\fi};
+    \node[sn state] (B) at ({\snd/2},0)  {\ifsnlabels$B$\fi};
+    \draw[sn edge] (A) to[bend left=40] (B);
+    \draw[sn edge] (B) to[bend left=40] (A);
+    \draw[sn edge] (A.150) .. controls ($(A.150)+(150:1.6*\snl)$)
+                            and ($(A.210)+(210:1.6*\snl)$) .. (A.210);
+  },
+  % the hub: self-loop on A only
+  twostate hub/.pic={\pic {twostate core};},
+  % an agent: self-loops on both A and B
+  twostate agent/.pic={
+    \pic {twostate core};
+    \draw[sn edge] (B.30) .. controls ($(B.30)+(30:1.6*\snl)$)
+                           and ($(B.-30)+(-30:1.6*\snl)$) .. (B.-30);
+  },
+  % ---- shared panel styles -------------------------------------------
+  sn text/.style={font=\scriptsize, inner sep=1pt},
+  sn title/.style={font=\footnotesize, inner sep=1pt},
+  sn spoke/.style={draw=black, line width=0.75pt,
+                   -{Stealth[length=4pt, width=3.2pt]}},
+  sn loop arrow/.style={draw=black, line width=1.3pt,
+                        -{Stealth[length=6.5pt, width=5.5pt, bend]}},
+}
+
+% ---- (a) hub and spokes ---------------------------------------------------
+% Three agents (matching the three-agent runs of panel c) at hand-placed
+% positions around the hub, numbered clockwise from the upper right; the
+% title sits above the hub in the gap between agents 2 and 0. Along each spoke the action
+% X(i)_t runs into the hub on the counter-clockwise side and the perception
+% Y(i)_t runs out to the agent on the clockwise side. X labels sit nearer the
+% hub (\posx) and Y labels nearer the agent (\posy), as fractions of the
+% VISIBLE spoke (hub edge to agent edge), so the labels of neighbouring spokes
+% never share a radius and never run into a circle.
+\newcommand{\snHubPanel}{%
+\begingroup\rmfamily
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+  \def\rhub{0.6}    % hub radius [cm]
+  \def\ragent{0.44} % agent radius (larger than the hub's thumbnails need, for legibility)
+  \def\off{0.1}     % half-gap between the two arrows of a spoke
+  \def\lab{0.42}    % distance of the X/Y labels from the spoke axis
+  \def\posx{0.28}\def\posy{0.82}  % label positions along the visible spoke
+  \coordinate (H) at (0,0);
+  \node[circle, fill=snblue, inner sep=0pt, minimum size=2*\rhub cm] at (H) {};
+  \node[sn text] at (0, 1.12) {Social Network};
+  \snlabelsfalse
+  \begingroup\snsetsize{0.1}{0.34}{0.14}{0.5pt}
+    \pic at (H) {twostate hub};
+  \endgroup
+  % agent / x / y / side of its name
+  \foreach \i/\x/\y/\lp in {0/1.55/1.05/above, 1/1.55/-1.35/below,
+                            2/-2.15/-0.2/below} {
+    \pgfmathsetmacro{\ang}{atan2(\y,\x)}
+    \pgfmathsetmacro{\dist}{veclen(\x,\y)}
+    % hub->agent fractions of the visible spoke's start and end
+    \pgfmathsetmacro{\tstart}{\rhub/\dist}
+    \pgfmathsetmacro{\tend}{1-\ragent/\dist}
+    \pgfmathsetmacro{\tx}{\tstart+\posx*(\tend-\tstart)}
+    \pgfmathsetmacro{\ty}{\tstart+\posy*(\tend-\tstart)}
+    \node[circle, fill=sngreen, inner sep=0pt, minimum size=2*\ragent cm,
+          label={[sn text]\lp:Agent \i}] (A\i) at (\x,\y) {};
+    \begingroup\snsetsize{0.08}{0.29}{0.11}{0.5pt}
+      \pic at (A\i) {twostate agent};
+    \endgroup
+    % X(i)_t: agent -> hub, counter-clockwise side
+    \draw[sn spoke] ($(A\i)+(\ang+180:\ragent)+(\ang+90:\off)$)
+                 -- ($(H)+(\ang:\rhub)+(\ang+90:\off)$);
+    \node[sn text] at ($(H)!\tx!(A\i)+(\ang+90:\lab)$) {$X(\i)_t$};
+    % Y(i)_t: hub -> agent, clockwise side
+    \draw[sn spoke] ($(H)+(\ang:\rhub)+(\ang-90:\off)$)
+                 -- ($(A\i)+(\ang+180:\ragent)+(\ang-90:\off)$);
+    \node[sn text] at ($(H)!\ty!(A\i)+(\ang-90:\lab)$) {$Y(\i)_t$};
+  }
+\end{tikzpicture}%
+\endgroup}
+
+% ---- (b) binary feedback loop ---------------------------------------------
+\newcommand{\snLoopPanel}{%
+\begingroup\rmfamily
+\begin{tikzpicture}[baseline=(current bounding box.north),
+                    sn box/.style={rounded corners=4pt, inner sep=0pt,
+                                   minimum width=4.2cm, minimum height=1.05cm}]
+  \node[sn box, fill=snblue]  (hub) at (0, 0.8) {};
+  \node[sn box, fill=sngreen] (ag)  at (0,-0.8) {};
+  \node[sn title, above=1pt of hub] {Social Network};
+  \node[sn title, below=1pt of ag]  {Agents};
+  \snlabelstrue
+  \snsetsize{0.22}{0.95}{0.34}{1.0pt}
+  \pic at (hub.center) {twostate hub};
+  \pic at ([xshift=0.3cm]ag.center) {twostate agent};  % room for the tensor product
+  % tensor product over the agents, i = 0 .. 2
+  \node[circle, draw=black, line width=0.6pt, inner sep=0pt, minimum size=3.6mm]
+       (ot) at ([xshift=-1.6cm]ag.center) {};
+  \draw[line width=0.6pt] (ot.north west) -- (ot.south east)
+                          (ot.north east) -- (ot.south west);
+  \node[sn text, above=-1pt of ot] {$2$};
+  \node[sn text, below=-1pt of ot] {$i{=}0$};
+  % the loop: actions up the left side, perceptions down the right
+  \draw[sn loop arrow] (ag.west)  to[bend left=65]
+        node[sn text, left=1pt]  {$\vec{X}_t$} (hub.west);
+  \draw[sn loop arrow] (hub.east) to[bend left=65]
+        node[sn text, right=1pt] {$\vec{Y}_t$} (ag.east);
+\end{tikzpicture}%
+\endgroup}

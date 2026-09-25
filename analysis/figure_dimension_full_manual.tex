@@ -1,0 +1,24 @@
+% Fig. 4 of "Beliefs in feedback: Factored representations of interacting agents in transformers" with the MANUALLY drawn (a,b) panels:
+% the (a,b) block is cropped out of the co-authors' Keynote export
+% (social_network_ab_manual.pdf = manuscript Diagrams/Social_Network_Figs.pdf,
+% whose lower half is a stale copy of the data row) and the current data row
+% (plotting/dimension_cells.py -> figure_dimension_row.pdf) is placed below it.
+%
+% Trim is in MediaBox points (page 1920 x 1080): the (a,b) ink spans
+% x 303-1526, y 585-931 from the bottom; 6 pt of air is kept on each side.
+% If the Keynote export moves, re-measure (pdftoppm -r 72 + ink bbox).
+%     pdflatex -output-directory=. figure_dimension_full_manual.tex
+\documentclass[border=0pt]{standalone}
+\usepackage{graphicx}
+\graphicspath{{./}}
+\newlength{\figw}\setlength{\figw}{5.5in}
+\begin{document}
+\begin{minipage}{\figw}
+\centering
+\includegraphics[pagebox=mediabox, trim=297 579 388 143, clip,
+                 width=\linewidth]{social_network_ab_manual.pdf}
+
+\vspace{2pt}
+\includegraphics[width=\linewidth]{figure_dimension_row.pdf}
+\end{minipage}
+\end{document}

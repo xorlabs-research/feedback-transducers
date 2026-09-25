@@ -1,0 +1,1457 @@
+[
+  {
+    "run": "feedback_mess3_mess3_canonical_50k",
+    "vocab": 9,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 852,
+        "baseline": 7.731253534913099e-05,
+        "measured": 0.0006972670210755004,
+        "control_null": 0.05161407476789125,
+        "control_rand": 0.09192798882126725,
+        "closed_gap": 0.986490758107917
+      },
+      {
+        "factor": 1,
+        "n_eval": 853,
+        "baseline": 7.680954749315508e-05,
+        "measured": 0.0006140772301256475,
+        "control_null": 0.048814480496391414,
+        "control_rand": 0.09328244562496656,
+        "closed_gap": 0.987420183030094
+      }
+    ],
+    "setup": "loop_mess3",
+    "label": "loop, mess3$\\,\\leftrightarrow\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_mess3_canonical_s901_50k",
+    "vocab": 9,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 833,
+        "baseline": 5.285849726024998e-05,
+        "measured": 0.0005461772048912981,
+        "control_null": 0.050929757568970065,
+        "control_rand": 0.091932397764653,
+        "closed_gap": 0.9892758726732274
+      },
+      {
+        "factor": 1,
+        "n_eval": 847,
+        "baseline": 5.2942200567774536e-05,
+        "measured": 0.0005000814136390233,
+        "control_null": 0.049133941555872605,
+        "control_rand": 0.09298640609255784,
+        "closed_gap": 0.9898220782252863
+      }
+    ],
+    "setup": "loop_mess3",
+    "label": "loop, mess3$\\,\\leftrightarrow\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_mess3_canonical_s902_50k",
+    "vocab": 9,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 807,
+        "baseline": 8.599836632215617e-05,
+        "measured": 0.0005535111154216394,
+        "control_null": 0.05085191059531808,
+        "control_rand": 0.09294779025443907,
+        "closed_gap": 0.989115234630484
+      },
+      {
+        "factor": 1,
+        "n_eval": 843,
+        "baseline": 8.339560407539764e-05,
+        "measured": 0.0005122131873844498,
+        "control_null": 0.051319803391891704,
+        "control_rand": 0.09330757131733498,
+        "closed_gap": 0.990019190380114
+      }
+    ],
+    "setup": "loop_mess3",
+    "label": "loop, mess3$\\,\\leftrightarrow\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_mess3_canonical_s903_50k",
+    "vocab": 9,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 829,
+        "baseline": 5.572231618231497e-05,
+        "measured": 0.0005120980201051891,
+        "control_null": 0.050312394388786805,
+        "control_rand": 0.09452076341094784,
+        "closed_gap": 0.989821632893319
+      },
+      {
+        "factor": 1,
+        "n_eval": 857,
+        "baseline": 5.443910758075365e-05,
+        "measured": 0.0004518641501763418,
+        "control_null": 0.05132939881710995,
+        "control_rand": 0.0937831076785812,
+        "closed_gap": 0.9911967768844057
+      }
+    ],
+    "setup": "loop_mess3",
+    "label": "loop, mess3$\\,\\leftrightarrow\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_mess3_canonical_s904_50k",
+    "vocab": 9,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 847,
+        "baseline": 5.786216056522106e-05,
+        "measured": 0.00047831518576527376,
+        "control_null": 0.05005711590515131,
+        "control_rand": 0.09211302775457306,
+        "closed_gap": 0.9904446115778706
+      },
+      {
+        "factor": 1,
+        "n_eval": 846,
+        "baseline": 5.727931785277532e-05,
+        "measured": 0.00036361610044114345,
+        "control_null": 0.05073264802353721,
+        "control_rand": 0.09483046844129843,
+        "closed_gap": 0.9928327001525241
+      }
+    ],
+    "setup": "loop_mess3",
+    "label": "loop, mess3$\\,\\leftrightarrow\\,$mess3"
+  },
+  {
+    "run": "telephone_mess3_canonical_50k",
+    "vocab": 729,
+    "n_factors": 4,
+    "editable": [
+      1,
+      2,
+      3
+    ],
+    "dims": [
+      1,
+      9,
+      9,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 936,
+        "baseline": 0.0002244032409703262,
+        "measured": 0.003170994946449242,
+        "control_null": 0.18340271346044631,
+        "control_rand": 0.37512289482996514,
+        "closed_gap": 0.9827102070268272
+      },
+      {
+        "factor": 2,
+        "n_eval": 874,
+        "baseline": 0.00022603467255072866,
+        "measured": 0.0018652801328044946,
+        "control_null": 0.05291331231137933,
+        "control_rand": 0.3693656087694369,
+        "closed_gap": 0.9647483770846197
+      },
+      {
+        "factor": 3,
+        "n_eval": 922,
+        "baseline": 0.000224944884054273,
+        "measured": 0.0036817436380763534,
+        "control_null": 0.15631872308939904,
+        "control_rand": 0.3745854638964878,
+        "closed_gap": 0.9764471998919109
+      }
+    ],
+    "setup": "telephone_mess3",
+    "label": "telephone, $3\\times$ mess3"
+  },
+  {
+    "run": "telephone_mess3_canonical_s401_50k",
+    "vocab": 729,
+    "n_factors": 4,
+    "editable": [
+      1,
+      2,
+      3
+    ],
+    "dims": [
+      1,
+      9,
+      9,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 937,
+        "baseline": 0.00021066463513840585,
+        "measured": 0.0025603894721693953,
+        "control_null": 0.18160780030466817,
+        "control_rand": 0.36256718449418907,
+        "closed_gap": 0.985901544603954
+      },
+      {
+        "factor": 2,
+        "n_eval": 890,
+        "baseline": 0.00021025474089857556,
+        "measured": 0.0013240313126393485,
+        "control_null": 0.05149217689436476,
+        "control_rand": 0.3540317575042681,
+        "closed_gap": 0.974286748152917
+      },
+      {
+        "factor": 3,
+        "n_eval": 914,
+        "baseline": 0.0002082202260520297,
+        "measured": 0.0028956670296131372,
+        "control_null": 0.1495876144106711,
+        "control_rand": 0.3553895163617141,
+        "closed_gap": 0.9806423343201162
+      }
+    ],
+    "setup": "telephone_mess3",
+    "label": "telephone, $3\\times$ mess3"
+  },
+  {
+    "run": "telephone_mess3_canonical_s402_50k",
+    "vocab": 729,
+    "n_factors": 4,
+    "editable": [
+      1,
+      2,
+      3
+    ],
+    "dims": [
+      1,
+      9,
+      9,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 940,
+        "baseline": 0.00020996501987484778,
+        "measured": 0.003085038780629021,
+        "control_null": 0.18401841572134253,
+        "control_rand": 0.36630467967090397,
+        "closed_gap": 0.9832351628040279
+      },
+      {
+        "factor": 2,
+        "n_eval": 850,
+        "baseline": 0.00020848418851945576,
+        "measured": 0.0018186151400216035,
+        "control_null": 0.052612733817437425,
+        "control_rand": 0.3635888323795129,
+        "closed_gap": 0.9654339357021045
+      },
+      {
+        "factor": 3,
+        "n_eval": 915,
+        "baseline": 0.0002075414027692058,
+        "measured": 0.0033359345073852294,
+        "control_null": 0.14862556230230742,
+        "control_rand": 0.3705283889540371,
+        "closed_gap": 0.9775547728418355
+      }
+    ],
+    "setup": "telephone_mess3",
+    "label": "telephone, $3\\times$ mess3"
+  },
+  {
+    "run": "telephone_mess3_canonical_s403_50k",
+    "vocab": 729,
+    "n_factors": 4,
+    "editable": [
+      1,
+      2,
+      3
+    ],
+    "dims": [
+      1,
+      9,
+      9,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 940,
+        "baseline": 0.00022358541859314397,
+        "measured": 0.003085871014841852,
+        "control_null": 0.18343557764917545,
+        "control_rand": 0.3639195914598543,
+        "closed_gap": 0.9831773582072304
+      },
+      {
+        "factor": 2,
+        "n_eval": 846,
+        "baseline": 0.00022700729118831916,
+        "measured": 0.0018023903727974486,
+        "control_null": 0.05149851519647266,
+        "control_rand": 0.35783650673806505,
+        "closed_gap": 0.965001119626049
+      },
+      {
+        "factor": 3,
+        "n_eval": 920,
+        "baseline": 0.000227349486645538,
+        "measured": 0.0031554000179895504,
+        "control_null": 0.14930182430083747,
+        "control_rand": 0.3630500193914124,
+        "closed_gap": 0.9788656298557241
+      }
+    ],
+    "setup": "telephone_mess3",
+    "label": "telephone, $3\\times$ mess3"
+  },
+  {
+    "run": "telephone_mess3_canonical_s404_50k",
+    "vocab": 729,
+    "n_factors": 4,
+    "editable": [
+      1,
+      2,
+      3
+    ],
+    "dims": [
+      1,
+      9,
+      9,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 933,
+        "baseline": 0.00030909581457485793,
+        "measured": 0.002993755291214072,
+        "control_null": 0.18371686774570337,
+        "control_rand": 0.37084133995328084,
+        "closed_gap": 0.9837045159328649
+      },
+      {
+        "factor": 2,
+        "n_eval": 872,
+        "baseline": 0.0003075506339006685,
+        "measured": 0.0016397322374956667,
+        "control_null": 0.050266201394295544,
+        "control_rand": 0.36776055624159454,
+        "closed_gap": 0.9673790302029516
+      },
+      {
+        "factor": 3,
+        "n_eval": 941,
+        "baseline": 0.0003075216064379838,
+        "measured": 0.0033430245616471958,
+        "control_null": 0.1537018319380971,
+        "control_rand": 0.36840134554937526,
+        "closed_gap": 0.9782499367802358
+      }
+    ],
+    "setup": "telephone_mess3",
+    "label": "telephone, $3\\times$ mess3"
+  },
+  {
+    "run": "telephone_fractal2_sym_canonical_50k",
+    "vocab": 1024,
+    "n_factors": 6,
+    "editable": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dims": [
+      1,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 824,
+        "baseline": 0.00032518653157382726,
+        "measured": 0.0007049187399801377,
+        "control_null": 0.16054789434273614,
+        "control_rand": 0.48582425806087537,
+        "closed_gap": 0.9956092931466589
+      },
+      {
+        "factor": 2,
+        "n_eval": 795,
+        "baseline": 0.00032691089256599244,
+        "measured": 0.0006053680320773638,
+        "control_null": 0.09033855400830201,
+        "control_rand": 0.48274177307618643,
+        "closed_gap": 0.9932988961499015
+      },
+      {
+        "factor": 3,
+        "n_eval": 835,
+        "baseline": 0.0003247264615531114,
+        "measured": 0.0010056610070143083,
+        "control_null": 0.24835357565417968,
+        "control_rand": 0.49890121582756036,
+        "closed_gap": 0.9959506884313409
+      },
+      {
+        "factor": 4,
+        "n_eval": 738,
+        "baseline": 0.0003245028735669058,
+        "measured": 0.0008642509759523972,
+        "control_null": 0.05317615692713502,
+        "control_rand": 0.4743420854185673,
+        "closed_gap": 0.9837473968429753
+      },
+      {
+        "factor": 5,
+        "n_eval": 615,
+        "baseline": 0.00031366771799863624,
+        "measured": 0.0005804496695865228,
+        "control_null": 0.027381427040259823,
+        "control_rand": 0.46360720233697444,
+        "closed_gap": 0.9788013360759806
+      }
+    ],
+    "setup": "telephone_fractal2",
+    "label": "telephone, $5\\times$ fractal2"
+  },
+  {
+    "run": "telephone_fractal2_sym_canonical_s801_50k",
+    "vocab": 1024,
+    "n_factors": 6,
+    "editable": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dims": [
+      1,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 852,
+        "baseline": 0.0003175558786460556,
+        "measured": 0.0006543705250660382,
+        "control_null": 0.16611093469941512,
+        "control_rand": 0.5006083351483231,
+        "closed_gap": 0.9960606414848598
+      },
+      {
+        "factor": 2,
+        "n_eval": 814,
+        "baseline": 0.0003209239691472084,
+        "measured": 0.0005974965805718534,
+        "control_null": 0.09565135528916488,
+        "control_rand": 0.48872741631141897,
+        "closed_gap": 0.9937533913788722
+      },
+      {
+        "factor": 3,
+        "n_eval": 836,
+        "baseline": 0.0003193005094317654,
+        "measured": 0.0009221455286668907,
+        "control_null": 0.24567936713096122,
+        "control_rand": 0.5146600717624995,
+        "closed_gap": 0.996246548745889
+      },
+      {
+        "factor": 4,
+        "n_eval": 733,
+        "baseline": 0.0003185845660670919,
+        "measured": 0.0006580280423128996,
+        "control_null": 0.05207963801668671,
+        "control_rand": 0.48678189546455963,
+        "closed_gap": 0.9873649651308625
+      },
+      {
+        "factor": 5,
+        "n_eval": 638,
+        "baseline": 0.0003082825930448769,
+        "measured": 0.00038592218931065203,
+        "control_null": 0.02774591457991418,
+        "control_rand": 0.473778685854159,
+        "closed_gap": 0.9860908463406707
+      }
+    ],
+    "setup": "telephone_fractal2",
+    "label": "telephone, $5\\times$ fractal2"
+  },
+  {
+    "run": "telephone_fractal2_sym_canonical_s802_50k",
+    "vocab": 1024,
+    "n_factors": 6,
+    "editable": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dims": [
+      1,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 832,
+        "baseline": 0.00024671640160596855,
+        "measured": 0.0007834882088887791,
+        "control_null": 0.16641379597762368,
+        "control_rand": 0.48314561533692424,
+        "closed_gap": 0.9952919275455135
+      },
+      {
+        "factor": 2,
+        "n_eval": 805,
+        "baseline": 0.00024880099973082886,
+        "measured": 0.0006808562525307436,
+        "control_null": 0.08980945244455123,
+        "control_rand": 0.4684996267119627,
+        "closed_gap": 0.9924188798172319
+      },
+      {
+        "factor": 3,
+        "n_eval": 827,
+        "baseline": 0.0002465615415593332,
+        "measured": 0.0010655034492503383,
+        "control_null": 0.23277203959537954,
+        "control_rand": 0.4913826857433655,
+        "closed_gap": 0.9954225453748549
+      },
+      {
+        "factor": 4,
+        "n_eval": 722,
+        "baseline": 0.00024293820629423375,
+        "measured": 0.0007781330615701682,
+        "control_null": 0.05077900379080185,
+        "control_rand": 0.46498659394653874,
+        "closed_gap": 0.9846760865026832
+      },
+      {
+        "factor": 5,
+        "n_eval": 625,
+        "baseline": 0.00024930340259631564,
+        "measured": 0.00046734341902023344,
+        "control_null": 0.027189815552309024,
+        "control_rand": 0.46631359295877445,
+        "closed_gap": 0.9828118209143002
+      }
+    ],
+    "setup": "telephone_fractal2",
+    "label": "telephone, $5\\times$ fractal2"
+  },
+  {
+    "run": "telephone_fractal2_sym_canonical_s803_50k",
+    "vocab": 1024,
+    "n_factors": 6,
+    "editable": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dims": [
+      1,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 830,
+        "baseline": 0.00027542260386789985,
+        "measured": 0.0005758546403493574,
+        "control_null": 0.16304645603339718,
+        "control_rand": 0.4840212633123756,
+        "closed_gap": 0.9964681560436284
+      },
+      {
+        "factor": 2,
+        "n_eval": 810,
+        "baseline": 0.00028426346265800873,
+        "measured": 0.0005421836660222009,
+        "control_null": 0.09575526397088095,
+        "control_rand": 0.4849710178150326,
+        "closed_gap": 0.9943378186896641
+      },
+      {
+        "factor": 3,
+        "n_eval": 859,
+        "baseline": 0.0002788789923180577,
+        "measured": 0.0008416198471905872,
+        "control_null": 0.22956937292863133,
+        "control_rand": 0.49357365791549784,
+        "closed_gap": 0.996333919300933
+      },
+      {
+        "factor": 4,
+        "n_eval": 706,
+        "baseline": 0.0002830413417794222,
+        "measured": 0.0005725182866083534,
+        "control_null": 0.054606575519011144,
+        "control_rand": 0.4735154790270155,
+        "closed_gap": 0.9895155797416919
+      },
+      {
+        "factor": 5,
+        "n_eval": 613,
+        "baseline": 0.0002756255239913528,
+        "measured": 0.0003799024303854867,
+        "control_null": 0.027295353347753463,
+        "control_rand": 0.467858636622624,
+        "closed_gap": 0.9860817910819698
+      }
+    ],
+    "setup": "telephone_fractal2",
+    "label": "telephone, $5\\times$ fractal2"
+  },
+  {
+    "run": "telephone_fractal2_sym_canonical_s804_50k",
+    "vocab": 1024,
+    "n_factors": 6,
+    "editable": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dims": [
+      1,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 1,
+        "n_eval": 816,
+        "baseline": 0.0003308762259243711,
+        "measured": 0.000737641101581952,
+        "control_null": 0.16965141032723957,
+        "control_rand": 0.4930466706829626,
+        "closed_gap": 0.9956520190421104
+      },
+      {
+        "factor": 2,
+        "n_eval": 798,
+        "baseline": 0.00033129633532674285,
+        "measured": 0.0008687513043548877,
+        "control_null": 0.09085496442385571,
+        "control_rand": 0.4830151316208907,
+        "closed_gap": 0.9904380425454574
+      },
+      {
+        "factor": 3,
+        "n_eval": 836,
+        "baseline": 0.0003242450755021602,
+        "measured": 0.0009396759517882033,
+        "control_null": 0.2433208908815819,
+        "control_rand": 0.507271548090595,
+        "closed_gap": 0.9961381205354639
+      },
+      {
+        "factor": 4,
+        "n_eval": 749,
+        "baseline": 0.00033777332544423344,
+        "measured": 0.0015700065439091199,
+        "control_null": 0.051931628544856084,
+        "control_rand": 0.46555674771883226,
+        "closed_gap": 0.969767816109348
+      },
+      {
+        "factor": 5,
+        "n_eval": 630,
+        "baseline": 0.0003252550954417881,
+        "measured": 0.0005612892659120546,
+        "control_null": 0.027816537700305632,
+        "control_rand": 0.4863730724054236,
+        "closed_gap": 0.9798217423045469
+      }
+    ],
+    "setup": "telephone_fractal2",
+    "label": "telephone, $5\\times$ fractal2"
+  },
+  {
+    "run": "feedback_sns_mess3_canonical_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 806,
+        "baseline": 9.265474237948109e-05,
+        "measured": 0.6819564513230547,
+        "control_null": 2.22203459356419,
+        "control_rand": 2.595293807877752,
+        "closed_gap": 0.6930936839155226
+      },
+      {
+        "factor": 1,
+        "n_eval": 975,
+        "baseline": 9.507961195285645e-05,
+        "measured": 0.6314306967391573,
+        "control_null": 0.3998880986069597,
+        "control_rand": 2.2117920421571164,
+        "closed_gap": -0.5790184777661394
+      }
+    ],
+    "setup": "loop_sns_mess3",
+    "label": "loop, sns$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_sns_mess3_canonical_s101_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 796,
+        "baseline": 0.00010897207768267942,
+        "measured": 0.6727909023814894,
+        "control_null": 2.124262787406979,
+        "control_rand": 2.4945403304749174,
+        "closed_gap": 0.68328263980807
+      },
+      {
+        "factor": 1,
+        "n_eval": 952,
+        "baseline": 0.00011360464657991432,
+        "measured": 0.597441957160073,
+        "control_null": 0.4016127388463171,
+        "control_rand": 2.1508573220326137,
+        "closed_gap": -0.48760708855077617
+      }
+    ],
+    "setup": "loop_sns_mess3",
+    "label": "loop, sns$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_sns_mess3_canonical_s102_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 792,
+        "baseline": 0.00011591561992125302,
+        "measured": 0.6482448909599021,
+        "control_null": 2.1249074214806214,
+        "control_rand": 2.491844198516615,
+        "closed_gap": 0.6949302899473101
+      },
+      {
+        "factor": 1,
+        "n_eval": 954,
+        "baseline": 0.00011704913328892864,
+        "measured": 0.5119074395550995,
+        "control_null": 0.39611261834982664,
+        "control_rand": 2.1408474908226283,
+        "closed_gap": -0.2923280295580202
+      }
+    ],
+    "setup": "loop_sns_mess3",
+    "label": "loop, sns$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_sns_mess3_canonical_s103_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 799,
+        "baseline": 0.00010372835423828535,
+        "measured": 0.6179307853332004,
+        "control_null": 2.0459929045285232,
+        "control_rand": 2.42216780872871,
+        "closed_gap": 0.6979799959396262
+      },
+      {
+        "factor": 1,
+        "n_eval": 944,
+        "baseline": 0.00010614191744205498,
+        "measured": 0.5554460873853883,
+        "control_null": 0.4085889622895974,
+        "control_rand": 2.1203322916063403,
+        "closed_gap": -0.3594250913506134
+      }
+    ],
+    "setup": "loop_sns_mess3",
+    "label": "loop, sns$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_sns_mess3_canonical_s104_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 797,
+        "baseline": 0.00013627193712150698,
+        "measured": 0.6632438808702028,
+        "control_null": 2.035520061962298,
+        "control_rand": 2.4210815357489612,
+        "closed_gap": 0.6741649010175723
+      },
+      {
+        "factor": 1,
+        "n_eval": 962,
+        "baseline": 0.00013749207969085086,
+        "measured": 0.5401713279557202,
+        "control_null": 0.40802342195594477,
+        "control_rand": 2.0751717096034854,
+        "closed_gap": -0.32387333395298024
+      }
+    ],
+    "setup": "loop_sns_mess3",
+    "label": "loop, sns$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_sns_canonical_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 903,
+        "baseline": 0.000102259378382995,
+        "measured": 0.11215421613826221,
+        "control_null": 0.4456246628786124,
+        "control_rand": 2.1445612433824253,
+        "closed_gap": 0.7483213442142611
+      },
+      {
+        "factor": 1,
+        "n_eval": 786,
+        "baseline": 9.590178429023115e-05,
+        "measured": 0.20577064127046038,
+        "control_null": 2.1033485069527913,
+        "control_rand": 2.5090433515723114,
+        "closed_gap": 0.9021699729786725
+      }
+    ],
+    "setup": "loop_mess3_sns",
+    "label": "loop, mess3$\\,\\to\\,$sns"
+  },
+  {
+    "run": "feedback_mess3_sns_canonical_s201_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 909,
+        "baseline": 0.000120474185206127,
+        "measured": 0.10774540219364553,
+        "control_null": 0.45128150791985233,
+        "control_rand": 2.2164342144090172,
+        "closed_gap": 0.7612456963054175
+      },
+      {
+        "factor": 1,
+        "n_eval": 786,
+        "baseline": 0.00011366454770964024,
+        "measured": 0.20974778623100443,
+        "control_null": 2.1864612868892284,
+        "control_rand": 2.6080786203047968,
+        "closed_gap": 0.9040697461744582
+      }
+    ],
+    "setup": "loop_mess3_sns",
+    "label": "loop, mess3$\\,\\to\\,$sns"
+  },
+  {
+    "run": "feedback_mess3_sns_canonical_s202_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 901,
+        "baseline": 9.226542008474122e-05,
+        "measured": 0.12346443191317373,
+        "control_null": 0.4502696474793568,
+        "control_rand": 2.089706069455754,
+        "closed_gap": 0.7257989016041013
+      },
+      {
+        "factor": 1,
+        "n_eval": 762,
+        "baseline": 8.697008403303874e-05,
+        "measured": 0.22410447736517583,
+        "control_null": 2.0850176406370378,
+        "control_rand": 2.503672337496316,
+        "closed_gap": 0.8925167475817112
+      }
+    ],
+    "setup": "loop_mess3_sns",
+    "label": "loop, mess3$\\,\\to\\,$sns"
+  },
+  {
+    "run": "feedback_mess3_sns_canonical_s203_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 906,
+        "baseline": 0.00011648839711397533,
+        "measured": 0.12876039707304476,
+        "control_null": 0.4449029575531953,
+        "control_rand": 2.2285615528608864,
+        "closed_gap": 0.7105876801062861
+      },
+      {
+        "factor": 1,
+        "n_eval": 796,
+        "baseline": 0.00010809677772787763,
+        "measured": 0.2247806178636731,
+        "control_null": 2.1044621438331705,
+        "control_rand": 2.5188420846693096,
+        "closed_gap": 0.8931885667212589
+      }
+    ],
+    "setup": "loop_mess3_sns",
+    "label": "loop, mess3$\\,\\to\\,$sns"
+  },
+  {
+    "run": "feedback_mess3_sns_canonical_s204_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 915,
+        "baseline": 0.00015515884759786637,
+        "measured": 0.11973629788973172,
+        "control_null": 0.4442458155694835,
+        "control_rand": 2.151270448443053,
+        "closed_gap": 0.7304728740410521
+      },
+      {
+        "factor": 1,
+        "n_eval": 811,
+        "baseline": 0.00014536423437225293,
+        "measured": 0.2261499648138206,
+        "control_null": 2.029722071338538,
+        "control_rand": 2.4464688383265427,
+        "closed_gap": 0.8885808219720044
+      }
+    ],
+    "setup": "loop_mess3_sns",
+    "label": "loop, mess3$\\,\\to\\,$sns"
+  },
+  {
+    "run": "feedback_fractal2_mess3_canonical_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 741,
+        "baseline": 7.38900495973301e-05,
+        "measured": 0.002921795699610943,
+        "control_null": 0.09577054887196669,
+        "control_rand": 0.3494201867911068,
+        "closed_gap": 0.9694917097789946
+      },
+      {
+        "factor": 1,
+        "n_eval": 968,
+        "baseline": 7.450278176163157e-05,
+        "measured": 0.003069396655886426,
+        "control_null": 0.24922363934161984,
+        "control_rand": 0.3223376148559392,
+        "closed_gap": 0.9876841672644099
+      }
+    ],
+    "setup": "loop_fractal2_mess3",
+    "label": "loop, fractal2$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_fractal2_mess3_canonical_s1001_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 727,
+        "baseline": 0.00010085838083708806,
+        "measured": 0.0029013701040061486,
+        "control_null": 0.09992982873712562,
+        "control_rand": 0.35108967021763776,
+        "closed_gap": 0.970965925383116
+      },
+      {
+        "factor": 1,
+        "n_eval": 957,
+        "baseline": 9.917571438903663e-05,
+        "measured": 0.003117086215923914,
+        "control_null": 0.25386391222421684,
+        "control_rand": 0.3295740591587155,
+        "closed_gap": 0.9877214284274842
+      }
+    ],
+    "setup": "loop_fractal2_mess3",
+    "label": "loop, fractal2$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_fractal2_mess3_canonical_s1002_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 742,
+        "baseline": 7.857364828695806e-05,
+        "measured": 0.0025526637014024,
+        "control_null": 0.0922740763366773,
+        "control_rand": 0.34587168186865863,
+        "closed_gap": 0.9723360687774475
+      },
+      {
+        "factor": 1,
+        "n_eval": 956,
+        "baseline": 8.063315564980075e-05,
+        "measured": 0.003099199618832811,
+        "control_null": 0.2544830104268802,
+        "control_rand": 0.3254901444295713,
+        "closed_gap": 0.9878215853638556
+      }
+    ],
+    "setup": "loop_fractal2_mess3",
+    "label": "loop, fractal2$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_fractal2_mess3_canonical_s1003_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 740,
+        "baseline": 6.544326700026207e-05,
+        "measured": 0.003932645523945615,
+        "control_null": 0.09514209451830234,
+        "control_rand": 0.3510924857860181,
+        "closed_gap": 0.9586655565671922
+      },
+      {
+        "factor": 1,
+        "n_eval": 951,
+        "baseline": 6.961669519358502e-05,
+        "measured": 0.003797335847855064,
+        "control_null": 0.2550213624217354,
+        "control_rand": 0.32851808278932915,
+        "closed_gap": 0.9851097342912971
+      }
+    ],
+    "setup": "loop_fractal2_mess3",
+    "label": "loop, fractal2$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_fractal2_mess3_canonical_s1004_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      2,
+      9
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 710,
+        "baseline": 9.308134322507953e-05,
+        "measured": 0.0015989959935803631,
+        "control_null": 0.09074438885697941,
+        "control_rand": 0.34273859263256884,
+        "closed_gap": 0.982379119924423
+      },
+      {
+        "factor": 1,
+        "n_eval": 954,
+        "baseline": 9.187936672834466e-05,
+        "measured": 0.0022167564653990035,
+        "control_null": 0.2530771449148265,
+        "control_rand": 0.3205028003100608,
+        "closed_gap": 0.9912407876019581
+      }
+    ],
+    "setup": "loop_fractal2_mess3",
+    "label": "loop, fractal2$\\,\\to\\,$mess3"
+  },
+  {
+    "run": "feedback_mess3_fractal2_canonical_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 928,
+        "baseline": 6.562817990478877e-05,
+        "measured": 0.006023756164365497,
+        "control_null": 0.2641415025868502,
+        "control_rand": 0.3307326623360488,
+        "closed_gap": 0.9771949651782386
+      },
+      {
+        "factor": 1,
+        "n_eval": 716,
+        "baseline": 7.110487421581269e-05,
+        "measured": 0.0016896483639214654,
+        "control_null": 0.09285467097406734,
+        "control_rand": 0.3684515715841468,
+        "closed_gap": 0.9818033024489058
+      }
+    ],
+    "setup": "loop_mess3_fractal2",
+    "label": "loop, mess3$\\,\\to\\,$fractal2"
+  },
+  {
+    "run": "feedback_mess3_fractal2_canonical_s1301_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 934,
+        "baseline": 8.918204818261864e-05,
+        "measured": 0.0059986476788393495,
+        "control_null": 0.2613327042678816,
+        "control_rand": 0.33264010912162306,
+        "closed_gap": 0.9770459357712444
+      },
+      {
+        "factor": 1,
+        "n_eval": 740,
+        "baseline": 9.828332764031907e-05,
+        "measured": 0.0018101831300567632,
+        "control_null": 0.09478683184570605,
+        "control_rand": 0.366505507164955,
+        "closed_gap": 0.980902588526185
+      }
+    ],
+    "setup": "loop_mess3_fractal2",
+    "label": "loop, mess3$\\,\\to\\,$fractal2"
+  },
+  {
+    "run": "feedback_mess3_fractal2_canonical_s1302_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 915,
+        "baseline": 7.207255044276695e-05,
+        "measured": 0.005709375513106695,
+        "control_null": 0.26139979122976764,
+        "control_rand": 0.33243367353597236,
+        "closed_gap": 0.9781584541967434
+      },
+      {
+        "factor": 1,
+        "n_eval": 717,
+        "baseline": 7.674860394457177e-05,
+        "measured": 0.0015747395642619357,
+        "control_null": 0.09868495469662383,
+        "control_rand": 0.3754147525412174,
+        "closed_gap": 0.9840427594145128
+      }
+    ],
+    "setup": "loop_mess3_fractal2",
+    "label": "loop, mess3$\\,\\to\\,$fractal2"
+  },
+  {
+    "run": "feedback_mess3_fractal2_canonical_s1303_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 929,
+        "baseline": 7.786478711491071e-05,
+        "measured": 0.00728099788279901,
+        "control_null": 0.25743616293324645,
+        "control_rand": 0.3278776799313039,
+        "closed_gap": 0.9717172684682728
+      },
+      {
+        "factor": 1,
+        "n_eval": 714,
+        "baseline": 8.269950214067125e-05,
+        "measured": 0.002273370003082785,
+        "control_null": 0.09762996490472942,
+        "control_rand": 0.366642543514219,
+        "closed_gap": 0.9767144236372387
+      }
+    ],
+    "setup": "loop_mess3_fractal2",
+    "label": "loop, mess3$\\,\\to\\,$fractal2"
+  },
+  {
+    "run": "feedback_mess3_fractal2_canonical_s1304_50k",
+    "vocab": 6,
+    "n_factors": 2,
+    "editable": [
+      0,
+      1
+    ],
+    "dims": [
+      3,
+      4
+    ],
+    "edits": [
+      {
+        "factor": 0,
+        "n_eval": 924,
+        "baseline": 9.48458972868223e-05,
+        "measured": 0.0059080608991834375,
+        "control_null": 0.25805421851597093,
+        "control_rand": 0.3281646372721602,
+        "closed_gap": 0.9771053504447252
+      },
+      {
+        "factor": 1,
+        "n_eval": 716,
+        "baseline": 0.00010141656480715079,
+        "measured": 0.0019037483464595618,
+        "control_null": 0.09706148459094506,
+        "control_rand": 0.3731219583457379,
+        "closed_gap": 0.9803861608496646
+      }
+    ],
+    "setup": "loop_mess3_fractal2",
+    "label": "loop, mess3$\\,\\to\\,$fractal2"
+  }
+]
