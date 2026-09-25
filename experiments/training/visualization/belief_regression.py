@@ -591,6 +591,62 @@ def plot_belief_regression_grid(
     return fig
 
 
+_SYNC_SUBPLOTS_JS = """
+<!-- subplot-sync-injected -->
+<script>
+// Synchronize camera (3D) and axis range (2D) between paired left/right
+// subplots in a Plotly figure produced by `make_subplots(cols=2, ...)`.
+// Subplot numbering pairs columns as (1,2), (3,4) — so scene↔scene2,
+// scene3↔scene4, xaxis↔xaxis2, yaxis↔yaxis2, etc.
+(function() {
+  function axIndex(k) { var m = k.match(/(\\d+)$/); return m ? parseInt(m[1], 10) : 1; }
+  function pairKeys(layout, prefix) {
+    var keys = Object.keys(layout).filter(function(k) { return new RegExp('^' + prefix + '\\\\d*$').test(k); });
+    keys.sort(function(a, b) { return axIndex(a) - axIndex(b); });
+    var pairs = [];
+    for (var i = 0; i + 1 < keys.length; i += 2) pairs.push([keys[i], keys[i + 1]]);
+    return pairs;
+  }
+  function setupSync(gd) {
+    if (!gd.layout || gd.__syncInstalled) return;
+    gd.__syncInstalled = true;
+    var scenePairs = pairKeys(gd.layout, 'scene');
+    var xPairs = pairKeys(gd.layout, 'xaxis');
+    var yPairs = pairKeys(gd.layout, 'yaxis');
+    var syncing = false;
+    gd.on('plotly_relayout', function(ed) {
+      if (syncing) return;
+      var update = {}, changed = false;
+      scenePairs.forEach(function(pair) {
+        var L = pair[0], R = pair[1];
+        if (ed[L + '.camera']) { update[R + '.camera'] = ed[L + '.camera']; changed = true; }
+        else if (ed[R + '.camera']) { update[L + '.camera'] = ed[R + '.camera']; changed = true; }
+      });
+      function syncRange(L, R) {
+        var Lhit = ed[L + '.range[0]'] !== undefined || ed[L + '.range[1]'] !== undefined || ed[L + '.range'] !== undefined;
+        var Rhit = ed[R + '.range[0]'] !== undefined || ed[R + '.range[1]'] !== undefined || ed[R + '.range'] !== undefined;
+        if (Lhit && !Rhit && gd.layout[L].range) { update[R + '.range'] = gd.layout[L].range.slice(); changed = true; }
+        else if (Rhit && !Lhit && gd.layout[R].range) { update[L + '.range'] = gd.layout[R].range.slice(); changed = true; }
+      }
+      xPairs.forEach(function(p) { syncRange(p[0], p[1]); });
+      yPairs.forEach(function(p) { syncRange(p[0], p[1]); });
+      if (changed) {
+        syncing = true;
+        Plotly.relayout(gd, update).then(function() { syncing = false; }, function() { syncing = false; });
+      }
+    });
+  }
+  function init() {
+    var gds = document.querySelectorAll('.plotly-graph-div');
+    if (!gds.length) { setTimeout(init, 50); return; }
+    gds.forEach(setupSync);
+  }
+  init();
+})();
+</script>
+"""
+
+
 def write_belief_regression_html(
     fig: go.Figure,
     path: str,
@@ -604,6 +660,13 @@ def write_belief_regression_html(
         include_plotlyjs: How to include Plotly.js ("cdn", "directory", True for inline)
     """
     html_content = fig.to_html(include_plotlyjs=include_plotlyjs, full_html=True)
+    # Tie the left/right subplots together so rotating/zooming one mirrors
+    # the change to its sibling. Injected before </body> so the script runs
+    # after Plotly has attached its event handlers to the .plotly-graph-div.
+    if "</body>" in html_content:
+        html_content = html_content.replace("</body>", _SYNC_SUBPLOTS_JS + "</body>", 1)
+    else:
+        html_content += _SYNC_SUBPLOTS_JS
     with open(path, "w") as f:
         f.write(html_content)
 

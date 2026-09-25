@@ -1,0 +1,36 @@
+name: telephone_mess3
+# Telephone: 3 action-delayed mess3 agents in a cycle, coupled through a
+# memoryless deterministic router T. Agent i perceives agent (i-1) mod N's
+# latched action. Action alphabet A=3 (mess3 emission alphabet), so the
+# router's joint-action space is K = 3^3 = 27.
+#
+# Each agent's base transducer stacks 3 mess3 HMMs (V=3, S=3) along the input
+# axis: predecessor's last-action ternary digit selects which mess3 kernel
+# drives the next step. Kernel triples vary across agents to spread per-agent
+# contrast (mirrors telephone_fractal2 mixed-contrast design).
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_telephone_loop
+  noise_epsilon: 0.0
+  action_size: 3
+  agents:
+    - transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.85}}
+          - {process_name: mess3, process_params: {x: 0.10, a: 0.50}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.70}}
+    - transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.60}}
+          - {process_name: mess3, process_params: {x: 0.10, a: 0.50}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.70}}
+    - transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.03, a: 0.80}}
+          - {process_name: mess3, process_params: {x: 0.12, a: 0.55}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.65}}
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

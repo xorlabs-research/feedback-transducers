@@ -1,0 +1,39 @@
+name: feedback_sns_mess3
+# Mutually-coupled feedback transducer: T = SNS (V=2, S=2), U = Mess3
+# (V=3, S=3, action-delayed -> S*X = 9). Both factors non-trivial with
+# distinct belief geometries: SNS has Cantor-like infinite |B_∞| on Δ¹;
+# Mess3 has fractal infinite |B_∞| on Δ².
+#
+# In the feedback-transducer feedback wiring:
+#   T K = V_u = 3  -> 3 SNS variants stacked along input axis
+#   U K = V_t = 2 -> 2 Mess3 variants stacked along input axis
+#
+# Variants (chosen to be visibly distinct):
+#   SNS: (p, q) ∈ {(0.30, 0.50), (0.50, 0.50), (0.70, 0.50)}
+#   Mess3: (x, a) ∈ {(0.05, 0.85), (0.15, 0.60)}
+#
+# Joint vocab: V_t * V_u = 2 * 3 = 6 (+ BOS = 7).
+# FWH dimensional bounds:
+#   factored (LDH closed-form upper bound) ≤ (|R|−1) + (|S|·|X|−1) = 1 + 8 = 9
+#   joint Kronecker                       ≤ |R|·|S|·|X| − 1 = 2·9 − 1 = 17
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_feedback_transducer_process_from_spec
+  noise_epsilon: 0.0
+  factors:
+    - role: T
+      transducer:
+        from_hmms:
+          - {process_name: sns, process_params: {p: 0.30, q: 0.50}}
+          - {process_name: sns, process_params: {p: 0.50, q: 0.50}}
+          - {process_name: sns, process_params: {p: 0.70, q: 0.50}}
+    - role: U
+      transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.85}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.60}}
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

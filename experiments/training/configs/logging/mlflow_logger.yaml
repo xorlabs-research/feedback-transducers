@@ -1,0 +1,11 @@
+instance:
+  _target_: fwh_core.logging.mlflow_logger.MLFlowLogger
+  experiment_name: ${experiment_name}
+  run_name: ${run_name}
+  # tracking_uri/registry_uri default to None -> picked up from
+  # MLFLOW_TRACKING_URI / MLFLOW_REGISTRY_URI env vars (or .env via dotenv).
+  # Set tracking_uri here to override (a remote tracking server URL, or a
+  # file:// URI for the file backend).
+  tracking_uri: null
+  registry_uri: null
+  downgrade_unity_catalog: true

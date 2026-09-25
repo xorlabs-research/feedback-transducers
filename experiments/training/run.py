@@ -7,7 +7,7 @@ from typing import Dict, Any
 
 from tqdm import tqdm
 import hydra
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import OmegaConf
 import jax
 import torch
 import tempfile
@@ -139,10 +139,19 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
     context_len = cfg.predictive_model.instance.cfg.n_ctx
     sequence_len = context_len - int(bos_token is not None) - int(eos_token is not None)
 
-    print(f"Computing Bayes-optimal loss for sequence_len={sequence_len}...")
+    # Use a large fixed sample count for the Bayes-optimal estimate, decoupled
+    # from `analysis_batch_size` (sized for the activation tracker, not MC of
+    # -log P). At N=1024 the optimum estimator carries ~0.005-nat bias on the
+    # feedback-transducer family — comparable to the model's distance from
+    # optimum, making `progress_to_optimal` misleading. N=32768 brings the
+    # bias well under 1e-3 nats (verified for telephone_fractal2 and
+    # telephone_mess3 across three seeds).
+    optimal_loss_num_samples = int(getattr(cfg.training, 'optimal_loss_num_samples', 32768))
+    print(f"Computing Bayes-optimal loss for sequence_len={sequence_len} "
+          f"with N={optimal_loss_num_samples} MC samples...")
     optimal_loss_info = compute_position_optimal_loss(
         generative_process=generative_process,
-        num_samples=getattr(cfg.training, 'analysis_batch_size', 100000),
+        num_samples=optimal_loss_num_samples,
         sequence_len=sequence_len,
         seed=cfg.seed + 99999,  # Use a different seed than training
     )
@@ -190,9 +199,23 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
     def add_key_prefix(d: dict[str, Any], prefix: str) -> dict[str, Any]:
         return {f"{prefix}/{k}": v for k, v in d.items()}
 
+    # Data stream (`seed_data_stream`, top-level flag). Off (default): the
+    # step-keyed stream, batch key PRNGKey(step), so the sampled data stream is
+    # IDENTICAL across runs regardless of cfg.seed and seeds vary only in
+    # weight init (the seed-77 canonical runs). On: the per-seed stream,
+    # fold_in(PRNGKey(cfg.seed), step), making cfg.seed the process-RNG seed
+    # for the entire data stream (train, eval, and end-of-run analysis
+    # batches) while staying exactly reproducible given (seed, step).
+    seed_data_stream = OmegaConf.select(cfg, "seed_data_stream", default=False)
+
+    def data_key(index: int) -> jax.Array:
+        if seed_data_stream:
+            return jax.random.fold_in(jax.random.PRNGKey(cfg.seed), index)
+        return jax.random.PRNGKey(index)
+
     # Define helper function to get the next batch of data
     def get_next_batch(step: int) -> tuple[jax.Array | tuple[jax.Array, ...], torch.Tensor, torch.Tensor]:
-        key = jax.random.PRNGKey(step)
+        key = data_key(step)
         bos_token = cfg.generative_process.bos_token
         eos_token = cfg.generative_process.eos_token
         context_len = cfg.predictive_model.instance.cfg.n_ctx
@@ -268,7 +291,7 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
                 generative_process,
                 analysis_batch,
                 sequence_len,
-                jax.random.PRNGKey(cfg.training.num_steps + 1),  # Fixed seed outside training range
+                data_key(cfg.training.num_steps + 1),  # Fixed key index outside training range
                 bos_token=bos_token,
                 eos_token=eos_token,
         )
@@ -418,6 +441,108 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
     # Create a temporary directory to save the activation visualizations to in order to enable accumulation of visualizations across steps
     with tempfile.TemporaryDirectory() as visualization_path:
 
+        def run_visualizations(step: int, belief_regression_viz_data: dict[str, dict]) -> None:
+            """Generate bespoke visualizations (cev / belief_regression / orthogonality)
+            for the given step. Factored out so the post-training final-step block can
+            call it without duplicating the body."""
+            # CEV visualization
+            if viz_cfg.cev.enabled and cev_history:
+                for layer_name in cev_history:
+                    fig = plot_cev_over_training(cev_history, layer_name, config=viz_cfg.cev)
+                    safe_name = layer_name.replace(".", "_")
+                    cev_path = Path(visualization_path) / f"cev_{safe_name}_step_{step}.html"
+                    write_cev_html(fig, str(cev_path))
+                    logger.log_artifact(str(cev_path), artifact_path=f"figures/cev/{safe_name}")
+
+            # Belief regression visualization
+            if viz_cfg.belief_regression.enabled and belief_regression_viz_data:
+                for layer_name, data in belief_regression_viz_data.items():
+                    safe_name = layer_name.replace(".", "_")
+                    try:
+                        # 3D/per-factor view
+                        fig = plot_belief_regression(
+                            y_true=data["y_true"],
+                            y_pred=data["y_pred"],
+                            step=step,
+                            layer_name=layer_name,
+                            num_factors=data["num_factors"],
+                            factor_dims=data["factor_dims"],
+                            overall_rmse=data["overall_rmse"],
+                            factor_rmse_scores=data["factor_rmse_scores"],
+                            config=viz_cfg.belief_regression,
+                        )
+                        belief_path = Path(visualization_path) / f"belief_regression_{safe_name}_step_{step}.html"
+                        write_belief_regression_html(fig, str(belief_path))
+                        logger.log_artifact(str(belief_path), artifact_path=f"figures/belief_regression/{safe_name}")
+
+                        # 2D grid view
+                        fig_grid = plot_belief_regression_grid(
+                            y_true=data["y_true"],
+                            y_pred=data["y_pred"],
+                            step=step,
+                            layer_name=layer_name,
+                            num_factors=data["num_factors"],
+                            factor_dims=data["factor_dims"],
+                            overall_rmse=data["overall_rmse"],
+                            factor_rmse_scores=data["factor_rmse_scores"],
+                            config=viz_cfg.belief_regression,
+                        )
+                        grid_path = Path(visualization_path) / f"belief_regression_grid_{safe_name}_step_{step}.html"
+                        write_belief_regression_html(fig_grid, str(grid_path))
+                        logger.log_artifact(str(grid_path), artifact_path=f"figures/belief_regression_grid/{safe_name}")
+                    except Exception as e:
+                        import warnings
+                        warnings.warn(f"Error generating belief regression for {layer_name}: {e}")
+
+            # Orthogonality visualization
+            if viz_cfg.orthogonality.enabled and orthogonality_history:
+                # Extract unique layer names from history keys (format: "{layer}/F{i},F{j}")
+                layer_names = set()
+                for key in orthogonality_history.keys():
+                    if "/" in key:
+                        layer_name = key.rsplit("/", 1)[0]
+                        layer_names.add(layer_name)
+
+                for layer_name in sorted(layer_names):
+                    safe_name = layer_name.replace(".", "_")
+                    # Filter history to only include this layer's pairs
+                    layer_history = {k: v for k, v in orthogonality_history.items() if k.startswith(f"{layer_name}/")}
+
+                    if not layer_history:
+                        continue
+
+                    try:
+                        # Plot 1: Principal angle spectrum
+                        fig_spectrum = plot_orthogonality_spectrum(
+                            layer_history,
+                            config=viz_cfg.orthogonality,
+                        )
+                        spectrum_path = Path(visualization_path) / f"orthogonality_spectrum_{safe_name}_step_{step}.html"
+                        write_orthogonality_html(fig_spectrum, str(spectrum_path))
+                        logger.log_artifact(str(spectrum_path), artifact_path=f"figures/orthogonality/spectrum/{safe_name}")
+
+                        # Plot 2: Timeline heatmap
+                        fig_heatmap = plot_orthogonality_heatmap(
+                            layer_history,
+                            config=viz_cfg.orthogonality,
+                        )
+                        heatmap_path = Path(visualization_path) / f"orthogonality_heatmap_{safe_name}_step_{step}.html"
+                        write_orthogonality_html(fig_heatmap, str(heatmap_path))
+                        logger.log_artifact(str(heatmap_path), artifact_path=f"figures/orthogonality/heatmap/{safe_name}")
+
+                        # Plot 3: Matrix snapshot (current step)
+                        fig_matrix = plot_orthogonality_matrix(
+                            layer_history,
+                            step=step,
+                            config=viz_cfg.orthogonality,
+                        )
+                        matrix_path = Path(visualization_path) / f"orthogonality_matrix_{safe_name}_step_{step}.html"
+                        write_orthogonality_html(fig_matrix, str(matrix_path))
+                        logger.log_artifact(str(matrix_path), artifact_path=f"figures/orthogonality/matrix/{safe_name}")
+                    except Exception as e:
+                        import warnings
+                        warnings.warn(f"Error generating orthogonality visualization for {layer_name}: {e}")
+
         for step in tqdm(range(cfg.training.num_steps), desc="Training"):
             if step == 0:
                 # Compute the initial loss and log it
@@ -444,103 +569,7 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
 
             # Generate bespoke visualizations
             if step % viz_cfg.every == 0:
-                # CEV visualization
-                if viz_cfg.cev.enabled and cev_history:
-                    for layer_name in cev_history:
-                        fig = plot_cev_over_training(cev_history, layer_name, config=viz_cfg.cev)
-                        safe_name = layer_name.replace(".", "_")
-                        cev_path = Path(visualization_path) / f"cev_{safe_name}_step_{step}.html"
-                        write_cev_html(fig, str(cev_path))
-                        logger.log_artifact(str(cev_path), artifact_path=f"figures/cev/{safe_name}")
-
-                # Belief regression visualization
-                if viz_cfg.belief_regression.enabled and belief_regression_viz_data:
-                    for layer_name, data in belief_regression_viz_data.items():
-                        safe_name = layer_name.replace(".", "_")
-                        try:
-                            # 3D/per-factor view
-                            fig = plot_belief_regression(
-                                y_true=data["y_true"],
-                                y_pred=data["y_pred"],
-                                step=step,
-                                layer_name=layer_name,
-                                num_factors=data["num_factors"],
-                                factor_dims=data["factor_dims"],
-                                overall_rmse=data["overall_rmse"],
-                                factor_rmse_scores=data["factor_rmse_scores"],
-                                config=viz_cfg.belief_regression,
-                            )
-                            belief_path = Path(visualization_path) / f"belief_regression_{safe_name}_step_{step}.html"
-                            write_belief_regression_html(fig, str(belief_path))
-                            logger.log_artifact(str(belief_path), artifact_path=f"figures/belief_regression/{safe_name}")
-
-                            # 2D grid view
-                            fig_grid = plot_belief_regression_grid(
-                                y_true=data["y_true"],
-                                y_pred=data["y_pred"],
-                                step=step,
-                                layer_name=layer_name,
-                                num_factors=data["num_factors"],
-                                factor_dims=data["factor_dims"],
-                                overall_rmse=data["overall_rmse"],
-                                factor_rmse_scores=data["factor_rmse_scores"],
-                                config=viz_cfg.belief_regression,
-                            )
-                            grid_path = Path(visualization_path) / f"belief_regression_grid_{safe_name}_step_{step}.html"
-                            write_belief_regression_html(fig_grid, str(grid_path))
-                            logger.log_artifact(str(grid_path), artifact_path=f"figures/belief_regression_grid/{safe_name}")
-                        except Exception as e:
-                            import warnings
-                            warnings.warn(f"Error generating belief regression for {layer_name}: {e}")
-
-                # Orthogonality visualization
-                if viz_cfg.orthogonality.enabled and orthogonality_history:
-                    # Extract unique layer names from history keys (format: "{layer}/F{i},F{j}")
-                    layer_names = set()
-                    for key in orthogonality_history.keys():
-                        if "/" in key:
-                            layer_name = key.rsplit("/", 1)[0]
-                            layer_names.add(layer_name)
-
-                    for layer_name in sorted(layer_names):
-                        safe_name = layer_name.replace(".", "_")
-                        # Filter history to only include this layer's pairs
-                        layer_history = {k: v for k, v in orthogonality_history.items() if k.startswith(f"{layer_name}/")}
-
-                        if not layer_history:
-                            continue
-
-                        try:
-                            # Plot 1: Principal angle spectrum
-                            fig_spectrum = plot_orthogonality_spectrum(
-                                layer_history,
-                                config=viz_cfg.orthogonality,
-                            )
-                            spectrum_path = Path(visualization_path) / f"orthogonality_spectrum_{safe_name}_step_{step}.html"
-                            write_orthogonality_html(fig_spectrum, str(spectrum_path))
-                            logger.log_artifact(str(spectrum_path), artifact_path=f"figures/orthogonality/spectrum/{safe_name}")
-
-                            # Plot 2: Timeline heatmap
-                            fig_heatmap = plot_orthogonality_heatmap(
-                                layer_history,
-                                config=viz_cfg.orthogonality,
-                            )
-                            heatmap_path = Path(visualization_path) / f"orthogonality_heatmap_{safe_name}_step_{step}.html"
-                            write_orthogonality_html(fig_heatmap, str(heatmap_path))
-                            logger.log_artifact(str(heatmap_path), artifact_path=f"figures/orthogonality/heatmap/{safe_name}")
-
-                            # Plot 3: Matrix snapshot (current step)
-                            fig_matrix = plot_orthogonality_matrix(
-                                layer_history,
-                                step=step,
-                                config=viz_cfg.orthogonality,
-                            )
-                            matrix_path = Path(visualization_path) / f"orthogonality_matrix_{safe_name}_step_{step}.html"
-                            write_orthogonality_html(fig_matrix, str(matrix_path))
-                            logger.log_artifact(str(matrix_path), artifact_path=f"figures/orthogonality/matrix/{safe_name}")
-                        except Exception as e:
-                            import warnings
-                            warnings.warn(f"Error generating orthogonality visualization for {layer_name}: {e}")
+                run_visualizations(step, belief_regression_viz_data)
 
             if step % cfg.training.evaluate_every == 0:
                 eval_step(step)
@@ -553,6 +582,22 @@ def main(cfg: TrainingRunConfig, components: fwh_core.Components):
 
             if should_save:
                 persister.save_weights(predictive_model, step)
+
+        # Final logging block: fire every periodic action unconditionally at
+        # step == num_steps so the highest-period metrics (R^2, PCA, eval, viz,
+        # checkpoint) ride out to the actual end of training. The loop above
+        # iterates over range(num_steps), i.e. step 0..num_steps-1, so any
+        # `step % N == 0` trigger naturally misses step == num_steps.
+        final_step = cfg.training.num_steps
+        log_step(final_step, "cheap")
+        if lr_scheduler is not None:
+            current_lr = optimizer.param_groups[0]["lr"]
+            logger.log_metrics(final_step, {"train/learning_rate": current_lr})
+        log_step(final_step, "expensive")
+        belief_regression_viz_data = activations_analysis_step(final_step)
+        run_visualizations(final_step, belief_regression_viz_data)
+        eval_step(final_step)
+        persister.save_weights(predictive_model, final_step)
 
 if __name__ == "__main__":
     main()

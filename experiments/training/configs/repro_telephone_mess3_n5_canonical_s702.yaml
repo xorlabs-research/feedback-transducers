@@ -1,0 +1,47 @@
+defaults:
+  - training: reproducibility
+  - predictive_model: transformer_canonical
+  - generative_process: telephone_mess3_n5
+  - metric_tracker@training_metric_tracker: full
+  - metric_tracker@eval_metric_tracker: loss_only
+  - activation_tracker: simple_tracker
+  - logging: mlflow_logger
+  - persistence: local_pytorch
+  - optimizer: pytorch_adam
+  - lr_scheduler: windowed_plateau
+  - _self_
+
+experiment_name: feedback_transducer
+run_name: telephone_mess3_n5_canonical_s702
+seed: 702
+weight_init_seed: 752
+# Per-seed data stream: data keys are fold_in(PRNGKey(seed), step), so each
+# seed sees distinct process samples.
+seed_data_stream: true
+device: auto
+
+tags:
+  research_step: training
+  retention: ephemeral
+  strict: "true"
+
+experiment_tags:
+  project: feedback_transducer
+
+visualization:
+  every: 10000
+  cev:
+    enabled: true
+    colorscale: Archival
+    max_components: null
+    show_rangeslider: true
+  belief_regression:
+    enabled: true
+    max_samples: 10000
+
+# 9^5 = 59049-token vocab: batch 8192 instead of 25000 bounds logit memory
+# (~53 GB at 25000). Same steps as the other telephone runs.
+training:
+  # 50k steps, as all paper runs
+  num_steps: 50000
+  batch_size: 8192

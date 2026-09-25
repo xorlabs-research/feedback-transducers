@@ -1,0 +1,25 @@
+name: hooked_transformer
+# Double-width canonical: same depth as transformer_canonical (4 layers) but
+# twice the residual-stream width (d_model 240 vs 120). Attention and MLP scale
+# with the wider stream in the same proportions as the canonical model:
+# 3 heads x d_head 80 = d_model 240 (d_head = d_model/3), and d_mlp = 4*d_model
+# = 960. ~4x more parameters than canonical. Together with transformer_d60 this
+# forms the {60, 120, 240} width sweep used by the effective-rank-vs-width
+# appendix figure (does measured rank track the process or the architecture?).
+instance:
+  _target_: transformer_lens.HookedTransformer
+  cfg:
+    _target_: transformer_lens.HookedTransformerConfig
+    d_model: 240
+    d_head: 80
+    n_heads: 3
+    n_layers: 4
+    n_ctx: 9
+    d_mlp: 960
+    d_vocab: ???
+    act_fn: "relu"
+    normalization_type: "LN"
+    device: ${device}
+    seed: ${weight_init_seed}
+
+load_checkpoint_step: null

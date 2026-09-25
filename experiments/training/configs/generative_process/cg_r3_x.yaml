@@ -1,0 +1,22 @@
+name: cg_r3_x
+# Coarse-graining demonstrator, replicate 3 of 4 (independent
+# permutation draw), observation mode: x.
+# Exact belief dims @CEV 95% (positions 1-8, 1024 seqs): factored concat 8;
+# x-only / y-only entangled joint 22 / 22.
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_partition_loop
+  t_perms: [[2, 4, 3, 1, 0], [1, 3, 4, 2, 0], [3, 2, 1, 4, 0]]
+  t_partition: [1, 0, 2, 0, 1]
+  t_eps: 0.02
+  t_delta: 0.0
+  u_perms: [[1, 4, 2, 3, 0], [4, 1, 2, 3, 0], [1, 0, 3, 2, 4]]
+  u_partition: [0, 2, 1, 0, 1]
+  u_eps: 0.05
+  u_delta: 0.05
+  observe: x
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

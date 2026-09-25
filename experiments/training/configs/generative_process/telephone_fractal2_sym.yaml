@@ -1,0 +1,51 @@
+name: telephone_fractal2_sym
+# Every fractal2 kernel is symmetric (p == q): fractal2's state-transition
+# matrix is doubly stochastic iff p == q, so only then is the uniform initial
+# latent (the builder's default) the true stationary distribution. Kernel-1 is
+# the (1-b, 1-p, 1-q) mirror of kernel-0.
+#
+# Telephone: 5 action-delayed fractal2 agents in a cycle, coupled through a
+# memoryless deterministic router T. Agent i perceives agent (i-1) mod N's
+# latched action. Action alphabet A=2 (fractal2 emission alphabet), so the
+# router's joint-action space is K = 2^5 = 32.
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_telephone_loop
+  noise_epsilon: 0.0
+  action_size: 2
+  agents:
+    - transducer:
+        from_hmms:
+          - process_name: fractal2
+            process_params: {b: 0.25, p: 0.25, q: 0.25}
+          - process_name: fractal2
+            process_params: {b: 0.75, p: 0.75, q: 0.75}
+    - transducer:
+        from_hmms:
+          - process_name: fractal2
+            process_params: {b: 0.30, p: 0.30, q: 0.30}
+          - process_name: fractal2
+            process_params: {b: 0.70, p: 0.70, q: 0.70}
+    - transducer:
+        from_hmms:
+          - process_name: fractal2
+            process_params: {b: 0.20, p: 0.30, q: 0.30}
+          - process_name: fractal2
+            process_params: {b: 0.80, p: 0.70, q: 0.70}
+    - transducer:
+        from_hmms:
+          - process_name: fractal2
+            process_params: {b: 0.35, p: 0.325, q: 0.325}
+          - process_name: fractal2
+            process_params: {b: 0.65, p: 0.675, q: 0.675}
+    - transducer:
+        from_hmms:
+          - process_name: fractal2
+            process_params: {b: 0.40, p: 0.30, q: 0.30}
+          - process_name: fractal2
+            process_params: {b: 0.60, p: 0.70, q: 0.70}
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

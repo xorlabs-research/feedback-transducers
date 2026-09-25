@@ -1,0 +1,23 @@
+name: cg_partition_x
+# Coarse-graining demonstrator, X-ONLY observation (agent U marginalized):
+# exact 75-state HMM over the joint latent, vocab 3. The entangled belief
+# cloud measures dims 16/22 @ CEV 80/95% in the first 8 steps -- the
+# predicted effective-rank INVERSION vs the full-observation run despite
+# strictly less information.
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_partition_loop
+  t_perms: [[4, 2, 1, 3, 0], [1, 3, 4, 2, 0], [3, 1, 0, 4, 2]]
+  t_partition: [2, 1, 0, 0, 1]
+  t_eps: 0.05
+  t_delta: 0.05
+  u_perms: [[1, 0, 3, 2, 4], [3, 1, 0, 4, 2], [1, 4, 2, 3, 0]]
+  u_partition: [2, 1, 1, 0, 0]
+  u_eps: 0.02
+  u_delta: 0.05
+  observe: x
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

@@ -1,0 +1,29 @@
+name: feedback_mess3_fractal2
+# mess3 <-> fractal2 feedback loop, mess3 as the non-delayed factor (the
+# role-swapped partner of feedback_fractal2_mess3):
+#   T = mess3 (V=3, S=3)
+#   U = fractal2 (V=2, S=2, action-delayed -> S*X = 4)
+# Wiring: T K = V_u = 2 -> 2 mess3 variants; U K = V_t = 3.
+# Joint vocab 3*2 = 6 (+BOS). Factored bound (3-1)+(4-1) = 5; joint 3*4-1 = 11.
+# fractal2 kernels use p == q.
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_feedback_transducer_process_from_spec
+  noise_epsilon: 0.0
+  factors:
+    - role: T
+      transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.85}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.60}}
+    - role: U
+      transducer:
+        from_hmms:
+          - {process_name: fractal2, process_params: {b: 0.25, p: 0.25, q: 0.25}}
+          - {process_name: fractal2, process_params: {b: 0.50, p: 0.35, q: 0.35}}
+          - {process_name: fractal2, process_params: {b: 0.75, p: 0.65, q: 0.65}}
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null

@@ -14,6 +14,35 @@ from fwh_core.generative_processes.generative_process import GenerativeProcess
 from utils import expand_state_by_batch_size
 
 
+def _token_probs_chunked(generative_process, state_t, tokens_t, num_samples, chunk):
+    """P(actual token | state) per sample, chunked over the sample axis.
+
+    Numerically identical to `vmap(observation_probability_distribution)` over
+    all `num_samples` followed by a gather, but never materializes the full
+    [num_samples, vocab] observation-probability array. That matters twice:
+    (a) the full-batch vmap fuses the per-agent joint contraction into one giant
+    [K_t, num_samples * partial, NAGS] buffer, which OOMs for high-factor
+    processes (e.g. the 5-agent fractal2 telephone tuple); (b) for large joint
+    vocabularies even the *output* array explodes — 32768 samples x 59049 vocab
+    (5-agent mess3 telephone) = 7.2 GiB. Gathering the
+    actual token's probability inside each chunk keeps the peak at
+    [chunk, vocab].
+    """
+    fn = generative_process.observation_probability_distribution
+
+    def _slice(lo, hi):
+        if isinstance(state_t, tuple):
+            return tuple(b[lo:hi] for b in state_t)
+        return state_t[lo:hi]
+
+    parts = []
+    for lo in range(0, num_samples, chunk):
+        hi = min(lo + chunk, num_samples)
+        probs = jax.vmap(fn)(_slice(lo, hi))          # [c, vocab]
+        parts.append(probs[jnp.arange(hi - lo), tokens_t[lo:hi]])
+    return jnp.concatenate(parts, axis=0)             # [num_samples]
+
+
 def compute_position_optimal_loss(
     generative_process: GenerativeProcess,
     num_samples: int,
@@ -21,6 +50,7 @@ def compute_position_optimal_loss(
     seed: int,
     *,
     compute_stderr: bool = False,
+    obs_chunk_size: int = 2048,
 ) -> dict[str, Any]:
     """Compute position-specific Bayes-optimal loss.
 
@@ -69,12 +99,13 @@ def compute_position_optimal_loss(
         else:
             state_t = belief_states[:, t, ...]
 
-        # Get observation probabilities P(obs | state) for all vocab items
-        obs_probs = jax.vmap(generative_process.observation_probability_distribution)(state_t)
-
-        # Get probability of actual token at position t
-        token_t = tokens[:, t]
-        token_probs = obs_probs[jnp.arange(num_samples), token_t]
+        # Probability of the actual token at position t. Chunked over samples
+        # to bound both the intermediate einsum and the [samples, vocab]
+        # observation-probability array (see _token_probs_chunked); identical
+        # result to a single full-batch vmap + gather.
+        token_probs = _token_probs_chunked(
+            generative_process, state_t, tokens[:, t], num_samples, obs_chunk_size
+        )
 
         # Compute -log P (in nats)
         neg_log_probs = -jnp.log(token_probs + 1e-10)

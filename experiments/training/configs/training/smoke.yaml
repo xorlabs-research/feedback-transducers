@@ -1,9 +1,0 @@
-num_steps: 10
-batch_size: 24
-analysis_batch_size: 24
-log_cheap_every: 1
-log_expensive_every: 2
-log_activations_every: 2
-evaluate_every: 2
-checkpoint_every: 10
-checkpoint_schedule: null

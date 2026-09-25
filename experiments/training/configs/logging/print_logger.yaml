@@ -1,2 +1,0 @@
-instance:
-  _target_: fwh_core.logging.print_logger.PrintLogger

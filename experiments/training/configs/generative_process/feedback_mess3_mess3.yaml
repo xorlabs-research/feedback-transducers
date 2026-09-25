@@ -1,0 +1,43 @@
+name: feedback_mess3_mess3
+# Mutually-coupled mess3 / mess3 feedback process. Both factors are mess3 HMMs
+# (V=3, S=3); each factor's transition at step t+1 is selected by the OTHER
+# factor's just-emitted token at step t.
+#
+# F0 (agent T): mess3 transducer with K=V_u=3 variants, V=3, S=3. Three mess3
+# HMMs stacked along the input axis. Selected by U's last action.
+#
+# F1 (agent U, action-delayed): mess3 transducer with K=V_t=3 variants, V=3,
+# S=3. Three mess3 HMMs stacked along the input axis. Action-delayed wrapper
+# expands its state to S*X = 3*3 = 9. Selected by T's last emission.
+#
+# Variants (same set on both sides for symmetric coupling):
+#   variant 0: mess3(x=0.05, a=0.60)
+#   variant 1: mess3(x=0.10, a=0.50)
+#   variant 2: mess3(x=0.15, a=0.70)
+#
+# Joint vocab: V_t*V_u = 3*3 = 9 (+ BOS = 10).
+# FWH dimensional bounds:
+#   factored (LDH closed-form upper bound) ≤ (|R|-1) + (|S||X|-1) = 2 + 8 = 10
+#   joint Kronecker                       ≤ |R|·|S||X| - 1 = 3·9 - 1 = 26
+instance:
+  _target_: fwh_core.generative_processes.feedback_transducer.build_feedback_transducer_process_from_spec
+  noise_epsilon: 0.0
+  factors:
+    - role: T
+      transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.60}}
+          - {process_name: mess3, process_params: {x: 0.10, a: 0.50}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.70}}
+    - role: U
+      transducer:
+        from_hmms:
+          - {process_name: mess3, process_params: {x: 0.05, a: 0.60}}
+          - {process_name: mess3, process_params: {x: 0.10, a: 0.50}}
+          - {process_name: mess3, process_params: {x: 0.15, a: 0.70}}
+  device: ${device}
+
+base_vocab_size: ???
+vocab_size: ???
+bos_token: ???
+eos_token: null
