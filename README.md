@@ -1,7 +1,7 @@
 # Beliefs in feedback: Factored representations of interacting agents in transformers
 
 Reproduction code for the paper *Beliefs in feedback: Factored representations of interacting agents in transformers*
-(David A. Ehrlich, Manuel Baltieri, Fernando E. Rosas, Alexander B. Boyd; arXiv:XXXX.XXXXX — link to follow).
+(David A. Ehrlich, Manuel Baltieri, Fernando E. Rosas, Alexander B. Boyd; [arXiv:2611.02047](https://arxiv.org/abs/2611.02047)).
 
 The code retrains the paper's training runs exactly and regenerates its data figures.
 
@@ -38,7 +38,8 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
 @article{ehrlich2026beliefs,
   title   = {Beliefs in feedback: Factored representations of interacting agents in transformers},
   author  = {Ehrlich, David A. and Baltieri, Manuel and Rosas, Fernando E. and Boyd, Alexander B.},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  journal = {arXiv preprint arXiv:2611.02047},
   year    = {2026},
+  url     = {https://arxiv.org/abs/2611.02047},
 }
 ```
